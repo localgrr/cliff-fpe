@@ -15,8 +15,8 @@ if ( ! class_exists( 'cliff_fpe_options' ) ) {
 		}
 
 		static function options_page_menu() {
-			//add_options_page( $page_fb_app_secret, $menu_fb_app_secret, $capability, $menu_slug, $function)
-			add_options_page( "fpe Options", "fpe Options", "administrator", "fpe-options", array( $this, 'options_page'));
+
+			add_options_page( "Front Page Event Options", "fpe Options", "administrator", "fpe-options", array( $this, 'options_page'));
 		}
 
 		static function options_page() {
