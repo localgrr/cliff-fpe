@@ -1,0 +1,78 @@
+#wpcontent .nav-tab-wrapper, h2.nav-tab-wrapper {
+	margin-bottom: 20px;
+}
+
+.form-table th,
+.form-table td {
+	display: block;
+	padding: 0;
+	width: 100%;
+}
+
+.form-table label {
+	display: block;
+	padding-bottom: 10px;
+}
+
+.form-table p {
+	margin: 0 0 10px;
+}
+
+.fpe-settings-group {
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	padding: 20px;
+}
+
+#wpcontent .fpe-settings-group p.submit {
+	margin: 0;
+	padding: 0;
+}
+
+#wpcontent .fpe-settings-group textarea {
+	min-width: 300px;
+	min-height: 100px;
+	white-space: break-word;
+	overflow-x: hidden;
+}
+
+#fpe_info, .fpe-info {
+	border-radius: 5px;
+	color: #fff;
+	display: block;
+	background: #333;
+	font-family: monospace;
+	font-size: 11px;
+	margin: 0 50px 20px 0;
+	padding: 10px;
+	white-space: pre;
+	width: 100%;
+}
+
+.fpe-info .info {
+	color: lime;
+}
+
+.fpe-info .error {
+	color: red;
+}
+
+#fpa_test_fb_ids, #fb_test_app {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.buttons-container .button.fpe-loading {
+	background-image: url(../images/loading-stripe.gif);
+}
+
+.textarea-button {
+	padding-top: 5px;
+}
+
+.buttons-container {
+	display: block;
+	padding: 20px 0;
+	width: 100%;
+}
