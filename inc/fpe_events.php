@@ -9,18 +9,18 @@ if ( ! class_exists( 'cliff_fpe_events' ) ) {
 		public $cliff_fpe_helpers;
 		public $data;
 		public $ov;
-
-		const POST_TYPE = [
-			["venue", "Venue"],
-			["organizer", "Organizer"],
-			["event", "Event"],
-		];
+		public $post_types;
 
 		public function __construct( $data = null, $ov = null ) {
 
 			$this->cliff_fpe_helpers = new cliff_fpe_helpers();
 			$this->data = isset($_POST["data"]) ? $_POST["data"] : $this->cliff_fpe_helpers->object_to_array($data);
 			$this->ov = $ov ? $ov : null;
+			$this->post_types = [
+				["venue", "Venue"],
+				["organizer", "Organizer"],
+				["event", "Event"],
+			];
 
 
 			if( $this->data["id"] ) {

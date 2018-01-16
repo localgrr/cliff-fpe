@@ -10,11 +10,7 @@ if ( ! class_exists( 'cliff_fpe_cron' ) ) {
 		private $token;
 		private $cliff_fpe_helpers;
 		private $cliff_fpe_events;
-
-		const POST_TYPE = [
-			["venue", "Venue"],
-			["organizer", "Organizer"]
-		];
+		private $post_types;
 
 		public function __construct() {
 
@@ -22,6 +18,10 @@ if ( ! class_exists( 'cliff_fpe_cron' ) ) {
 			$this->token = $_POST["token"];
 			$this->options["facebook_page_ids"] = explode( "\n", $this->options["facebook_page_ids"] );
 			$this->cliff_fpe_helpers = new cliff_fpe_helpers(); 
+			$this->post_types = [
+				["venue", "Venue"],
+				["organizer", "Organizer"]
+			];
 
 			if( isset( $_POST["ovs"] )) {
 
