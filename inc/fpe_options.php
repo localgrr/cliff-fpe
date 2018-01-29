@@ -12,14 +12,14 @@ if ( ! class_exists( 'cliff_fpe_options' ) ) {
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'options_page_menu' ));
 			add_action( 'admin_init', array( $this, 'options_page_init' ) );
+		} 
+
+		public function options_page_menu() {
+
+			add_options_page( "Facebook Page Event Options", "Facebook Page Event Options", "administrator", "fpe-options", array( $this, 'options_page' ));
 		}
 
-		static function options_page_menu() {
-
-			add_options_page( "Facebook Page Event Options", "Facebook Page Event Options", "administrator", "fpe-options", array( $this, 'options_page'));
-		}
-
-		static function options_page() {
+		public function options_page() {
 	        // Set class property
 	        $this->options = get_option( 'fb_app_option_name' );
 	        $this->options2 = get_option( 'general_settings_option_name' );
@@ -71,9 +71,10 @@ if ( ! class_exists( 'cliff_fpe_options' ) ) {
 	            </form>
 	        </div>
 	        <?php
+
 		}
 
-	    static function options_page_init()
+	    public function options_page_init()
 	    {   
 	    	/* ***
 	    	 * FB App settings
@@ -162,7 +163,7 @@ if ( ! class_exists( 'cliff_fpe_options' ) ) {
 
 	    }
 
-	    static function facebook_page_ids_callback()
+	    public function facebook_page_ids_callback()
 	    {
 
 	    	$value = isset( $this->options2['facebook_page_ids'] ) ? $this->options2['facebook_page_ids'] : '';
@@ -172,7 +173,7 @@ if ( ! class_exists( 'cliff_fpe_options' ) ) {
 	            . $value . '</textarea><div class="textarea-button"><button id="fpa_test_fb_ids" class="button button-primary">Test IDs</button></div>';
 	    }
 
-	    static function facebook_cron_schedule_callback()
+	    public function facebook_cron_schedule_callback()
 	    {
 	    	$selected = isset( $this->options2['facebook_cron_schedule'] ) ? esc_attr( $this->options2['facebook_cron_schedule']) : 'twicedaily';
 	    	$selected_text = [
@@ -194,7 +195,7 @@ if ( ! class_exists( 'cliff_fpe_options' ) ) {
 	        ;
 	    }
 
-	    static function fb_app_id_callback()
+	    public function fb_app_id_callback()
 	    {
 	        printf(
 	            '<input type="text" id="fb_app_id" name="fb_app_option_name[fb_app_id]" value="%s" required="required" />',
@@ -205,7 +206,7 @@ if ( ! class_exists( 'cliff_fpe_options' ) ) {
 	    /** 
 	     * Get the settings option array and print one of its values
 	     */
-	    static function fb_app_secret_callback()
+	    public function fb_app_secret_callback()
 	    {
 	        printf(
 	            '<input type="text" id="fb_app_secret" name="fb_app_option_name[fb_app_secret]" value="%s" required="required" />',
