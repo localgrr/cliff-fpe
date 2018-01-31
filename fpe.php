@@ -17,6 +17,7 @@ Text Domain: cliff_fpe
 
 if( !defined('SHORTINIT') ) define( 'SHORTINIT', true );
 require_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-load.php' );
+define('FPE_PLUGIN_PATH', WP_PLUGIN_DIR . '/cliff-fpe/');
 
 
 include_once "inc/third-party/JP_admin_notices.php";
@@ -26,35 +27,21 @@ include_once "inc/fpe_events.php";
 include_once "inc/fpe_helpers.php";
 include_once "inc/fpe_cron.php";
 
+
 if ( ! class_exists( 'cliff_fpe' ) ) {
   class cliff_fpe {
 
   		private $options;
 
+  		const CRON_HOOK = 'cliff_fpe_page_scrape';
+  		const DEFAULT_CRON_SCHEDULE = 'twicedaily';
+
 	    public function __construct()
-	    {
-			register_activation_hook( __FILE__, array($this, 'check_deps') );
+	    {			
 			add_action( 'admin_print_scripts', array( $this, 'admin_inline_js' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
-			add_action( 'wp_ajax_my_action', array( $this, 'ajax_action' ) );
+			add_action( 'wp_ajax_my_action', array( $this, 'ajax_action' ) ); 
 	    }
-
-		static function check_deps() {
-			/**
-			* Check if The Events Calendar is active
-			**/
-			if ( !in_array( 'the-events-calendar/the-events-calendar.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-				
-				// Deactivate the plugin
-				deactivate_plugins(__FILE__);
-				
-				// Throw an error in the wordpress admin console
-				$error_message = __('This plugin requires <a href="https://wordpress.org/plugins/the-events-calendar/">The Events Calendar</a> plugin to be active!', 'the-events-calendar');
-				die($error_message);
-				
-			}
-			
-		}
 
 		function ajax_action() {
 
@@ -100,6 +87,8 @@ if ( ! class_exists( 'cliff_fpe' ) ) {
 
 add_action('init','init_functions');
 
+global $cliff_fpe_register;
+
 function init_functions() {
 
 	if( !array_key_exists("event_actions", $_POST) ) { 
@@ -109,7 +98,7 @@ function init_functions() {
 		if( is_admin() ) {
 			$cliff_fpe = new cliff_fpe();
 			$cliff_fpe_helpers = new cliff_fpe_helpers();
-			$cliff_fpe_options = new cliff_fpe_options();
+			$cliff_fpe_options = new cliff_fpe_options();       
 		}
 
 	} else {
@@ -128,6 +117,24 @@ function init_functions() {
 	}
 
 }
+
+function activate_cliff_fpe() {
+	require_once plugin_dir_path( __FILE__ ) . 'inc/fpe_activate.php';
+	$cliff_fpe_activate = new cliff_fpe_activate();
+	$cliff_fpe_activate->activate();
+}
+
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-cliff-fpe-deactivator.php
+ */
+function deactivate_cliff_fpe() {
+	//require_once plugin_dir_path( __FILE__ ) . 'includes/class-cliff-fpe-deactivator.php';
+	//Cliff_Fpe_Deactivator::deactivate();
+}
+
+register_activation_hook( __FILE__, 'activate_cliff_fpe' );
+//register_deactivation_hook( __FILE__, 'deactivate_cliff_fpe' );
 
 if ( ! function_exists('write_log')) {
    function write_log ( $log )  {
