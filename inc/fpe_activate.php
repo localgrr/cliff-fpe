@@ -8,7 +8,6 @@ if ( ! class_exists( 'cliff_fpe_activate' ) ) {
 
 		public function activate() {
 
-			write_log("hoeey");
 			$current_cron = wp_get_schedule( $this::CRON_HOOK );
 
 	    	if( $current_cron ) {
