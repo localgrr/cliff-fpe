@@ -212,7 +212,7 @@ if ( ! class_exists( 'cliff_fpe_events' ) ) {
 
 			if( $this->ov ) {
 
-				foreach ($this::POST_TYPE as $pt) {
+				foreach ($this->post_types as $pt) {
 
 					if( $pt[0] == $this->ov ) $post_type[0] = $pt;
 
@@ -220,7 +220,7 @@ if ( ! class_exists( 'cliff_fpe_events' ) ) {
 
 			} else {
 
-				$post_type = $this::POST_TYPE;
+				$post_type = $this->post_types;
 
 			}
 
@@ -327,6 +327,8 @@ if ( ! class_exists( 'cliff_fpe_events' ) ) {
 				return [wp_update_post( $post_data ), "update"];
 
 			} else {
+
+				$_POST["action_type"] = isset( $_POST["action_type"]) ? $_POST["action_type"] : null;
 
 				if( $_POST["action_type"] == "cron") {
 

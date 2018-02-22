@@ -6,33 +6,39 @@ if ( ! class_exists( 'cliff_fpe_cron' ) ) {
 
 	class cliff_fpe_cron {
 
-		private $options;
-		private $token;
-		private $cliff_fpe_helpers;
-		private $cliff_fpe_events;
-		private $post_types;
+		private static $options;
+		private static $token;
+		private static $cliff_fpe_helpers;
+		private static $cliff_fpe_events;
+		private static $post_types;
 
 		public function __construct() {
 
-			$this->options = get_option( 'general_settings_option_name' );
-			$this->token = $_POST["token"];
-			$this->options["facebook_page_ids"] = explode( "\n", $this->options["facebook_page_ids"] );
-			$this->cliff_fpe_helpers = new cliff_fpe_helpers(); 
-			$this->post_types = [
+			
+		} 
+ 
+		static function init() {
+
+			self::$cliff_fpe_helpers = new cliff_fpe_helpers(); 
+			self::$options = get_option( 'general_settings_option_name' );
+			self::$token = (isset($_POST["token"])) ? $_POST["token"] : self::$cliff_fpe_helpers->get_app_access_token();
+			self::$options["facebook_page_ids"] = explode( "\n", self::$options["facebook_page_ids"] );
+			
+			self::$post_types = [
 				["venue", "Venue"],
 				["organizer", "Organizer"]
 			];
 
 			if( isset( $_POST["ovs"] )) {
 
-				$this->scrape_ovs();
+				self::scrape_ovs();
 
 			} else {
 
-				$this->scrape_page( $this->options["facebook_page_ids"] );
+				self::scrape_page( self::$options["facebook_page_ids"] );
 
 			}
-			
+
 		}
 
 		/**
@@ -43,17 +49,17 @@ if ( ! class_exists( 'cliff_fpe_cron' ) ) {
 		 * @return false if invalid
 		 */
 
-		public function scrape_page( $page_ids ) {
+		static function scrape_page( $page_ids ) {
 
-			$this->add_ids( $page_ids );
+			self::add_ids( $page_ids );
 		}
 
-		public function scrape_ovs() {
+		static function scrape_ovs() {
 
 			global $wpdb;
 
 			$ids_clean = [];
-			$post_type = $this::POST_TYPE;
+			$post_type = self::POST_TYPE;
 			
 
 			foreach ($post_type as $p) {
@@ -68,13 +74,13 @@ if ( ! class_exists( 'cliff_fpe_cron' ) ) {
 
 				}
 				array_unique($ids_clean[$p[0]]);
-				$this->add_ids( $ids_clean[$p[0]], $p[0] );
+				self::add_ids( $ids_clean[$p[0]], $p[0] );
 
 			}
 
 		}
 
-		public function add_ids( $page_ids, $ov = null ) {
+		static function add_ids( $page_ids, $ov = null ) {
 
 			$fields = $ov ? "cover,description,phone,website,name,location" : "cover,description,end_time,start_time,name,owner,place,ticket_uri,timezone,updated_time,is_canceled&time_filter=upcoming";
 			$events = $ov ? "" : "/events";
@@ -82,7 +88,7 @@ if ( ! class_exists( 'cliff_fpe_cron' ) ) {
 			foreach ($page_ids as $id) {
 
 				$id = preg_replace( "/\r|\n/", "", $id );
-				$fb_json = $this->cliff_fpe_helpers->get_facebook_json($id . $events, "fields=" . $fields, $this->token );
+				$fb_json = self::$cliff_fpe_helpers->get_facebook_json($id . $events, "fields=" . $fields, self::$token );
 				
 				if( isset( $fb_json->data )) {
 

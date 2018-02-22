@@ -18,17 +18,11 @@ if ( ! class_exists( 'cliff_fpe_activate' ) ) {
 
 	    		wp_schedule_event( time(), $this::DEFAULT_CRON_SCHEDULE, $this::CRON_HOOK);
 	    		wp_schedule_event( time(), $this::DEFAULT_CRON_SCHEDULE, $this::CRON_HOOK . "_ov", array("ov"=>true) );
-	    		add_action(  $this::CRON_HOOK, array($this, 'do_cron'), 10, 1 );
+	    		add_action(  $this::CRON_HOOK, 'cliff_fpe_cron::init', 10, 1 );
 
 	    	}
 
 		}
-
-	    public function do_cron( $args ) {
-
-	    	$cliff_fpe_cron = new cliff_fpe_cron( $args );
-
-	    }
 
 		static function check_deps() {
 			/**
