@@ -50,7 +50,7 @@ function init_functions() {
 		
 		if( $_POST["action_type"] == "cron") {
 
-			$cliff_fpe_cron = new cliff_fpe_cron();
+			cliff_fpe_cron::init(); 
 
 		} else {
 
