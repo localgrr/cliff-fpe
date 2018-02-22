@@ -16,7 +16,7 @@ if ( ! class_exists( 'cliff_fpe_options' ) ) {
 
 		public function options_page_menu() {
 
-			add_options_page( "Facebook Page Event Options", "Facebook Page Event Options", "administrator", "fpe-options", array( $this, 'options_page' ));
+			add_options_page( "Facebook Page Events", "Facebook Page Events", "administrator", "fpe-options", array( $this, 'options_page' ));
 		}
 
 		public function options_page() {
