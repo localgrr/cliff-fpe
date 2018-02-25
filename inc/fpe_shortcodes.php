@@ -34,7 +34,7 @@ if ( ! class_exists( 'cliff_fpe_shortcodes' ) ) {
 		public function fpe_events_list( $atts ) {
 
 			global $wpdb;
-			//_EventStartDate
+
 			$today = date("Y-m-d 00:00:00");
 
 			$args = array(
@@ -62,8 +62,6 @@ if ( ! class_exists( 'cliff_fpe_shortcodes' ) ) {
 			foreach ($posts as $p) {
 				$p->post_meta = get_post_meta( $p->ID );
 			}
-			
-			//pre_r($posts); 
 
 		}
 
