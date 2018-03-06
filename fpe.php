@@ -22,10 +22,10 @@ define('FPE_PLUGIN_PATH', WP_PLUGIN_DIR . '/cliff-fpe/');
 
 include_once "inc/third-party/JP_admin_notices.php";
 include_once "inc/fpe_options.php";
+include_once "inc/fpe_cron.php";
 include_once "inc/fpe_shortcodes.php";
 include_once "inc/fpe_events.php";
 include_once "inc/fpe_helpers.php";
-include_once "inc/fpe_cron.php";
 include_once "inc/class_fpe.php"; 
 
 
@@ -34,6 +34,8 @@ add_action('init','init_functions');
 global $cliff_fpe_register;
 
 function init_functions() {
+
+	add_action( "cliff_fpe_page_scrape", array( 'cliff_fpe_cron', 'init' ));
 
 	if( !array_key_exists("event_actions", $_POST) ) { 
 
@@ -63,9 +65,11 @@ function init_functions() {
 }
 
 function activate_cliff_fpe() {
+
 	require_once plugin_dir_path( __FILE__ ) . 'inc/fpe_activate.php';
 	$cliff_fpe_activate = new cliff_fpe_activate();
 	$cliff_fpe_activate->activate();
+	
 }
 
 /**

@@ -184,11 +184,18 @@ function ajax_response(data, error = false) {
 	if( data.responseText ) {
 
 		text = data.responseText;
-		text = text.replace("0", ""); // fixme
+
+	} else if ( data.statusText ) {
+
+		text = data.statusText;
 
 	} else {
+
 		text = data;
+
 	}
+	
+	text = text.replace("0", ""); // fixme
 	display_info(text);
 	console.log(data);
 

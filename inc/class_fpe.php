@@ -4,9 +4,6 @@ if ( ! class_exists( 'cliff_fpe' ) ) {
 
   		private $options;
 
-  		const CRON_HOOK = 'cliff_fpe_page_scrape';
-  		const DEFAULT_CRON_SCHEDULE = 'twicedaily';
-
 	    public function __construct()
 	    {			
 			add_action( 'admin_print_scripts', array( $this, 'admin_inline_js' ) );
